@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>What Kind of Tomato Are You?</title>
+<meta name="description" content="Answer 7 quick questions and find out what kind of tomato you are.">
+<meta property="og:title" content="What Kind of Tomato Are You?">
+<meta property="og:description" content="Everyone is a tomato. Find out which one.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..900;1,9..144,400..900&family=Schibsted+Grotesk:wght@400..800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{ --paper:#fbf1df; --paper-2:#f6e6cb; --ink:#2a201a; --tomato:#e0392b; --tomato-deep:#b9281f;
+    --vine:#3f6b3a; --vine-deep:#2c4d2a; --ochre:#e7a338; --cream:#fff8ec; --shadow:rgba(42,32,26,.18); --accent:#e0392b;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html,body{height:100%;}
+  body{font-family:"Schibsted Grotesk",sans-serif;color:var(--ink);background:var(--paper);
+    background-image:
+      radial-gradient(circle at 12% 18%, rgba(224,57,43,.07) 0 9px, transparent 10px),
+      radial-gradient(circle at 82% 28%, rgba(63,107,58,.07) 0 7px, transparent 8px),
+      radial-gradient(circle at 26% 78%, rgba(231,163,56,.08) 0 8px, transparent 9px),
+      radial-gradient(circle at 70% 88%, rgba(224,57,43,.06) 0 6px, transparent 7px);
+    background-attachment:fixed;-webkit-font-smoothing:antialiased;min-height:100%;
+    display:flex;align-items:center;justify-content:center;padding:28px 16px;position:relative;overflow-x:hidden;}
+  body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:9999;opacity:.5;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.045'/%3E%3C/svg%3E");
+    mix-blend-mode:multiply;}
+  .card{width:100%;max-width:540px;background:var(--cream);border-radius:6px;position:relative;z-index:1;
+    box-shadow:0 1px 0 var(--paper-2),0 22px 50px -22px var(--shadow);padding:8px;}
+  .frame{border:2px solid var(--ink);border-radius:3px;padding:34px 30px 30px;position:relative;
+    box-shadow:inset 0 0 0 4px var(--cream), inset 0 0 0 5px var(--ink);}
+  .frame::before,.frame::after{content:"";position:absolute;width:10px;height:10px;border-radius:50%;
+    background:var(--tomato);border:2px solid var(--ink);}
+  .frame::before{top:-6px;left:-6px;} .frame::after{bottom:-6px;right:-6px;}
+  .kicker{font-family:"Space Mono",monospace;font-size:11px;letter-spacing:.28em;text-transform:uppercase;
+    color:var(--vine-deep);display:flex;align-items:center;gap:10px;justify-content:center;margin-bottom:16px;}
+  .kicker .ln{height:1px;background:var(--vine-deep);flex:1;opacity:.4;max-width:54px;}
+  h1{font-family:"Fraunces",serif;font-weight:800;line-height:.96;font-size:clamp(38px,9vw,58px);
+    text-align:center;letter-spacing:-.01em;font-variation-settings:"opsz" 120,"SOFT" 60,"WONK" 1;}
+  h1 em{font-style:italic;color:var(--tomato);}
+  .sub{text-align:center;font-size:15.5px;line-height:1.5;color:#5a4a3e;max-width:360px;margin:14px auto 0;}
+  .sub em{font-style:italic;}
+  .stage{position:relative;width:170px;height:160px;margin:0 auto 2px;}
+  .tomato-hero{width:150px;height:150px;display:block;margin:6px auto 0;}
+  #introStage .tomato-hero{animation:bounce 1.7s ease-in-out infinite;transform-origin:50% 92%;}
+  @keyframes bounce{0%,100%{transform:translateY(0) scale(1,1)}30%{transform:translateY(-15px) scale(.96,1.05)}
+    55%{transform:translateY(0) scale(1.06,.94)}70%{transform:translateY(-4px) scale(.99,1.01)}}
+  .leaf-wiggle{transform-origin:50px 18px;animation:wig 1.7s ease-in-out infinite;}
+  @keyframes wig{0%,100%{transform:rotate(-6deg)}50%{transform:rotate(6deg)}}
+  .blink{animation:blink 3.4s infinite;transform-origin:center;transform-box:fill-box;}
+  @keyframes blink{0%,92%,100%{transform:scaleY(1)}96%{transform:scaleY(.1)}}
+  .spk{position:absolute;font-size:18px;animation:spk 1.9s ease-in-out infinite;opacity:0;}
+  .spk.a{top:6px;left:20px;animation-delay:.1s} .spk.b{top:26px;right:16px;animation-delay:.7s}
+  .spk.c{bottom:18px;left:10px;animation-delay:1.2s} .spk.d{bottom:6px;right:30px;animation-delay:.4s}
+  @keyframes spk{0%{opacity:0;transform:scale(.4) rotate(0)}40%{opacity:1;transform:scale(1.1) rotate(15deg)}100%{opacity:0;transform:scale(.5) rotate(-10deg)}}
+  .btn{font-family:"Schibsted Grotesk",sans-serif;font-weight:700;font-size:16px;border:2px solid var(--ink);
+    background:var(--tomato);color:#fff8ec;cursor:pointer;padding:15px 24px;border-radius:50px;
+    display:inline-flex;align-items:center;gap:9px;box-shadow:3px 4px 0 var(--ink);
+    transition:transform .12s,box-shadow .12s,background .15s;-webkit-tap-highlight-color:transparent;}
+  .btn:hover{transform:translate(-1px,-2px);box-shadow:4px 6px 0 var(--ink);}
+  .btn:active{transform:translate(2px,3px);box-shadow:1px 1px 0 var(--ink);}
+  .btn.ghost{background:var(--cream);color:var(--ink);} .btn.vine{background:var(--vine);}
+  .center{text-align:center;}
+  .progress{display:flex;gap:6px;justify-content:center;align-items:center;margin-bottom:20px;}
+  .pip{width:10px;height:10px;border-radius:50%;border:2px solid var(--ink);background:var(--cream);transition:background .25s,transform .25s;}
+  .pip.done{background:var(--tomato);} .pip.cur{background:var(--ochre);transform:scale(1.35);}
+  .qno{font-family:"Space Mono",monospace;font-size:12px;letter-spacing:.22em;text-transform:uppercase;
+    color:var(--vine-deep);text-align:center;margin-bottom:10px;}
+  .qtext{font-family:"Fraunces",serif;font-weight:700;font-size:clamp(23px,5.6vw,30px);line-height:1.12;
+    text-align:center;margin-bottom:22px;letter-spacing:-.01em;}
+  .opts{display:flex;flex-direction:column;gap:11px;}
+  .opt{font-family:"Schibsted Grotesk",sans-serif;font-size:15.5px;font-weight:500;text-align:left;
+    background:var(--cream);border:2px solid var(--ink);border-radius:14px;padding:15px 16px;cursor:pointer;
+    display:flex;align-items:flex-start;gap:12px;box-shadow:2px 3px 0 rgba(42,32,26,.9);
+    transition:transform .1s,box-shadow .1s,background .12s;-webkit-tap-highlight-color:transparent;color:var(--ink);line-height:1.3;}
+  .opt:hover{background:#fff;transform:translate(-1px,-1px);box-shadow:3px 4px 0 var(--ink);}
+  .opt:active{transform:translate(2px,3px);box-shadow:0 0 0 var(--ink);}
+  .opt .ltr{font-family:"Space Mono",monospace;font-weight:700;color:var(--tomato);border:2px solid var(--ink);
+    border-radius:8px;width:26px;height:26px;flex:0 0 26px;display:flex;align-items:center;justify-content:center;
+    font-size:13px;background:var(--paper);}
+  .screen{display:none;animation:fade .4s ease both;} .screen.active{display:block;}
+  @keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+  .stagger>*{opacity:0;animation:rise .5s ease forwards;} @keyframes rise{to{opacity:1;transform:none}}
+  .variety{font-family:"Space Mono",monospace;font-size:11px;letter-spacing:.28em;text-transform:uppercase;
+    color:var(--vine-deep);text-align:center;}
+  .rname{font-family:"Fraunces",serif;font-weight:900;font-size:clamp(30px,7.4vw,44px);text-align:center;
+    line-height:.98;margin:4px 0 2px;letter-spacing:-.01em;color:var(--accent);
+    font-variation-settings:"opsz" 120,"SOFT" 80,"WONK" 1;}
+  .rtag{text-align:center;font-style:italic;font-family:"Fraunces",serif;font-size:18px;color:var(--ink);margin-bottom:14px;}
+  .rdesc{font-size:16px;line-height:1.6;color:#4d3e34;text-align:center;max-width:400px;margin:0 auto 18px;}
+  .traits{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:18px;}
+  .trait{font-family:"Space Mono",monospace;font-size:11.5px;letter-spacing:.04em;background:var(--paper);
+    border:2px solid var(--ink);border-radius:50px;padding:6px 12px;}
+  .ripe{max-width:340px;margin:0 auto 18px;}
+  .ripe .lab{font-family:"Space Mono",monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase;
+    display:flex;justify-content:space-between;color:var(--vine-deep);margin-bottom:6px;}
+  .meter{height:14px;border:2px solid var(--ink);border-radius:50px;background:var(--cream);overflow:hidden;}
+  .meter span{display:block;height:100%;width:0;background:var(--accent);transition:width 1.1s cubic-bezier(.2,.9,.25,1);}
+  .soul{border:2px dashed var(--vine);background:rgba(63,107,58,.07);border-radius:16px;padding:13px 16px;
+    margin:0 auto 12px;max-width:420px;display:flex;align-items:center;gap:14px;}
+  .soul svg{width:56px;height:56px;flex:0 0 56px;}
+  .soul .lab{font-family:"Space Mono",monospace;font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--vine-deep);}
+  .soul .nm{font-family:"Fraunces",serif;font-weight:800;font-size:18px;line-height:1.05;margin:2px 0 3px;}
+  .soul .why{font-size:13px;color:#5a4a3e;line-height:1.4;}
+  .nem{font-family:"Space Mono",monospace;font-size:12px;text-align:center;color:#8a6f5c;margin-bottom:18px;}
+  .nem b{color:var(--tomato-deep);}
+  .actions{display:flex;flex-direction:column;gap:10px;align-items:center;}
+  .row{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;}
+  .copied{font-family:"Space Mono",monospace;font-size:12px;color:var(--vine);min-height:14px;text-align:center;padding:0 10px;}
+  footer{text-align:center;font-family:"Space Mono",monospace;font-size:10.5px;letter-spacing:.12em;
+    color:#9a8a7c;margin-top:18px;text-transform:uppercase;}
+  .pop{animation:pop .55s cubic-bezier(.18,1.5,.4,1) both;}
+  @keyframes pop{0%{transform:scale(.4) rotate(-10deg);opacity:0}100%{transform:scale(1) rotate(-1deg);opacity:1}}
+  .seed{position:absolute;width:9px;height:11px;border-radius:50% 50% 50% 50%/60% 60% 40% 40%;
+    background:var(--ochre);border:1.5px solid var(--ink);pointer-events:none;z-index:50;}
+</style>
+</head>
+<body>
+<main class="card"><div class="frame">
+
+  <section class="screen active" id="intro">
+    <div class="kicker"><span class="ln"></span> Garden Variety № 7 <span class="ln"></span></div>
+    <div class="stage" id="introStage">
+      <span class="spk a">✦</span><span class="spk b">✿</span><span class="spk c">✦</span><span class="spk d">·</span>
+      <svg class="tomato-hero" id="heroTomato" viewBox="0 0 100 100"></svg>
+    </div>
+    <h1>What kind of <em>tomato</em> are you?</h1>
+    <p class="sub">Seven quick questions. One tomato that is somehow you.</p>
+    <div class="center" style="margin-top:22px"><button class="btn" onclick="start()">Start</button></div>
+  </section>
+
+  <section class="screen" id="quiz">
+    <div class="progress" id="progress"></div>
+    <div class="qno" id="qno"></div>
+    <div class="qtext" id="qtext"></div>
+    <div class="opts" id="opts"></div>
+  </section>
+
+  <section class="screen" id="result">
+    <div class="variety" id="rVariety">Variety № 00</div>
+    <div class="stage" style="height:150px"><svg class="tomato-hero pop" id="resultTomato" viewBox="0 0 100 100" style="margin-top:4px"></svg></div>
+    <div class="rname" id="rName"></div>
+    <div class="rtag" id="rTag"></div>
+    <div class="rdesc" id="rDesc"></div>
+    <div class="traits" id="rTraits"></div>
+    <div class="ripe">
+      <div class="lab"><span>Unripe</span><span>Dangerously ripe</span></div>
+      <div class="meter"><span id="ripeFill"></span></div>
+    </div>
+    <div class="soul" id="soulBlock">
+      <svg id="soulTomato" viewBox="0 0 100 100"></svg>
+      <div>
+        <div class="lab">Your tomato soulmate</div>
+        <div class="nm" id="soulName"></div>
+        <div class="why" id="soulWhy"></div>
+      </div>
+    </div>
+    <div class="nem" id="rNem"></div>
+    <div class="actions">
+      <div class="row">
+        <button class="btn" id="shareBtn">Share my tomato</button>
+        <button class="btn ghost" id="dlBtn">Save card</button>
+      </div>
+      <div class="copied" id="copied"></div>
+      <button class="btn vine" onclick="restart()" style="margin-top:4px">Pick again</button>
+    </div>
+    <footer>Grown for fun · Not affiliated with any real tomatoes</footer>
+  </section>
+
+</div></main>
+
+<script>
+/* ---------- DISTINCT TOMATO ART (each variety looks different) ---------- */
+function leaf(cx, cy){ return `<g class="leaf-wiggle" style="transform-origin:${cx}px ${cy}px">
+  <path d="M${cx} ${cy} C${cx} ${cy-9} ${cx-6} ${cy-13} ${cx-11} ${cy-14} C${cx-7} ${cy-9} ${cx-5} ${cy-3} ${cx} ${cy}Z" fill="#4d7d44" stroke="#2a201a" stroke-width="1.4"/>
+  <path d="M${cx} ${cy} C${cx} ${cy-10} ${cx+6} ${cy-14} ${cx+11} ${cy-15} C${cx+6} ${cy-9} ${cx+4} ${cy-3} ${cx} ${cy}Z" fill="#3f6b3a" stroke="#2a201a" stroke-width="1.4"/>
+  <path d="M${cx} ${cy} C${cx-5} ${cy-7} ${cx-13} ${cy-7} ${cx-18} ${cy-6} C${cx-11} ${cy-3} ${cx-5} ${cy-1} ${cx} ${cy}Z" fill="#4d7d44" stroke="#2a201a" stroke-width="1.4"/>
+  <path d="M${cx} ${cy} C${cx+5} ${cy-7} ${cx+13} ${cy-7} ${cx+18} ${cy-6} C${cx+11} ${cy-3} ${cx+5} ${cy-1} ${cx} ${cy}Z" fill="#3f6b3a" stroke="#2a201a" stroke-width="1.4"/>
+  <path d="M${cx} ${cy-14} v${cy>20? -0: 0} " /></g>
+  <path d="M${cx} ${cy-13} v-${cy-cy+0+8}" stroke="#2c4d2a" stroke-width="2.6" stroke-linecap="round"/>`;}
+
+const ART = {
+  // small, glossy, on the vine, with a buddy
+  cherry:()=>`
+    <path d="M28 22 Q48 11 70 19" fill="none" stroke="#4d7d44" stroke-width="3" stroke-linecap="round"/>
+    <circle cx="72" cy="25" r="10" fill="#ec4233" stroke="#9e1f17" stroke-width="2.6"/>
+    <path d="M72 16 v-4" stroke="#3f6b3a" stroke-width="2.4" stroke-linecap="round"/>
+    ${leaf(46,33)}
+    <circle cx="46" cy="62" r="30" fill="#ec4233" stroke="#9e1f17" stroke-width="3"/>
+    <ellipse cx="34" cy="50" rx="7" ry="11" fill="#fff" opacity="0.32" transform="rotate(-20 34 50)"/>
+    <g class="blink"><circle cx="38" cy="60" r="3.8" fill="#2a201a"/><circle cx="55" cy="60" r="3.8" fill="#2a201a"/>
+    <circle cx="39.2" cy="58.8" r="1.2" fill="#fff"/><circle cx="56.2" cy="58.8" r="1.2" fill="#fff"/></g>
+    <path d="M36 71 q5 7 10 1 q4 6 10 -2" fill="none" stroke="#2a201a" stroke-width="2.8" stroke-linecap="round"/>`,
+
+  // big, lobed, ribbed, dark with green shoulders
+  heirloom:()=>`
+    ${leaf(50,24)}
+    <path d="M50 26 C30 26 16 38 15 56 C14 72 26 90 50 90 C74 90 86 72 85 56 C84 38 70 26 50 26 Z" fill="#9c3550" stroke="#5e1f30" stroke-width="3"/>
+    <path d="M50 26 C37 26 26 32 21 44 C31 39 40 37 50 37 C60 37 69 39 79 44 C74 32 63 26 50 26Z" fill="#5d7d3a" opacity="0.5"/>
+    <path d="M38 32 Q33 60 41 88" stroke="#6e2238" stroke-width="2.6" fill="none" opacity="0.55"/>
+    <path d="M62 32 Q67 60 59 88" stroke="#6e2238" stroke-width="2.6" fill="none" opacity="0.55"/>
+    <path d="M50 30 V90" stroke="#7a2742" stroke-width="2" fill="none" opacity="0.4"/>
+    <ellipse cx="31" cy="52" rx="7" ry="12" fill="#fff" opacity="0.16" transform="rotate(-18 31 52)"/>
+    <path d="M35 58 q3 -6 6 0 q3 -6 6 0 q-3 6 -6 4 q-3 2 -6 -4 Z" fill="#5e1f30"/>
+    <path d="M53 58 q3 -6 6 0 q3 -6 6 0 q-3 6 -6 4 q-3 2 -6 -4 Z" fill="#5e1f30"/>
+    <ellipse cx="30" cy="69" rx="5" ry="3" fill="#ff8a78" opacity="0.5"/><ellipse cx="70" cy="69" rx="5" ry="3" fill="#ff8a78" opacity="0.5"/>
+    <path d="M40 74 q10 7 20 0" fill="none" stroke="#2a201a" stroke-width="3" stroke-linecap="round"/>`,
+
+  // wrinkled, flat, dark, dried
+  sundried:()=>`
+    <path d="M50 28 q-2 -9 -9 -11 q5 5 4 12" fill="#7a5a3a" stroke="#2a201a" stroke-width="1.3"/>
+    <path d="M50 30 C28 30 13 42 13 58 C13 75 30 84 50 84 C70 84 87 75 87 58 C87 42 72 30 50 30 Z" fill="#7e2e1a" stroke="#4a1a0e" stroke-width="3"/>
+    <path d="M23 52 Q40 45 35 66" stroke="#561f10" stroke-width="2.4" fill="none" opacity="0.75"/>
+    <path d="M50 41 Q45 60 53 75" stroke="#561f10" stroke-width="2.4" fill="none" opacity="0.7"/>
+    <path d="M72 50 Q61 60 67 72" stroke="#561f10" stroke-width="2.4" fill="none" opacity="0.65"/>
+    <path d="M28 71 Q50 78 73 69" stroke="#561f10" stroke-width="2" fill="none" opacity="0.5"/>
+    <path d="M35 60 q4 -3 8 0" fill="none" stroke="#2a201a" stroke-width="3" stroke-linecap="round"/>
+    <path d="M57 60 q4 -3 8 0" fill="none" stroke="#2a201a" stroke-width="3" stroke-linecap="round"/>
+    <path d="M41 73 q9 -2 18 0" fill="none" stroke="#2a201a" stroke-width="3" stroke-linecap="round"/>
+    <path d="M79 50 q4 6 0 11 q-4 -5 0 -11 Z" fill="#5fa8e0" stroke="#2a201a" stroke-width="1.2"/>`,
+
+  // an actual tin can with a red label
+  canned:()=>`
+    <rect x="26" y="34" width="48" height="50" rx="5" fill="#cfd3d8" stroke="#2a201a" stroke-width="3"/>
+    <ellipse cx="50" cy="34" rx="24" ry="7" fill="#e4e7ea" stroke="#2a201a" stroke-width="3"/>
+    <ellipse cx="50" cy="34" rx="18" ry="4.4" fill="#b7bcc2" stroke="#2a201a" stroke-width="1.4"/>
+    <rect x="30" y="38" width="4" height="44" fill="#fff" opacity="0.28"/>
+    <rect x="26" y="48" width="48" height="28" fill="#d8392c" stroke="#2a201a" stroke-width="2.4"/>
+    <circle cx="34" cy="44" r="3.4" fill="#ec4233" stroke="#7a1a12" stroke-width="1"/>
+    <path d="M34 40.8 v-2.4" stroke="#3f6b3a" stroke-width="1.6" stroke-linecap="round"/>
+    <g class="blink"><circle cx="42" cy="59" r="3.1" fill="#fff"/><circle cx="58" cy="59" r="3.1" fill="#fff"/></g>
+    <path d="M37 55 l7 1.4" stroke="#fff" stroke-width="2.2" stroke-linecap="round"/>
+    <path d="M63 55 l-7 1.4" stroke="#fff" stroke-width="2.2" stroke-linecap="round"/>
+    <path d="M41 68 q9 4 18 0" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round"/>
+    <path d="M50 78 l-2 5" stroke="#5fa8e0" stroke-width="2" stroke-linecap="round" opacity="0.85"/>`,
+
+  // round, green, unripe, looking away
+  green:()=>`
+    ${leaf(50,24)}
+    <path d="M50 26 C73 26 88 40 88 60 C88 81 71 92 50 92 C29 92 12 81 12 60 C12 40 27 26 50 26 Z" fill="#85ad4c" stroke="#516f2c" stroke-width="3"/>
+    <ellipse cx="64" cy="72" rx="12" ry="8" fill="#c9da8f" opacity="0.5"/>
+    <path d="M40 32 Q35 60 43 88" stroke="#6e9540" stroke-width="2.2" fill="none" opacity="0.4"/>
+    <ellipse cx="33" cy="50" rx="7" ry="11" fill="#fff" opacity="0.22" transform="rotate(-20 33 50)"/>
+    <circle cx="43" cy="59" r="3.4" fill="#2a201a"/><circle cx="62" cy="59" r="3.4" fill="#2a201a"/>
+    <circle cx="44.6" cy="58" r="1.1" fill="#fff"/><circle cx="63.6" cy="58" r="1.1" fill="#fff"/>
+    <path d="M41 73 h20" stroke="#2a201a" stroke-width="3" stroke-linecap="round"/>`,
+
+  // huge, wide, squat, ribbed shoulders
+  beefsteak:()=>`
+    ${leaf(50,22)}
+    <path d="M50 24 C30 24 22 28 18 38 Q13 45 13 56 C13 79 30 91 50 91 C70 91 87 79 87 56 Q87 45 82 38 C78 28 70 24 50 24 Z" fill="#c92f24" stroke="#841c14" stroke-width="3"/>
+    <path d="M20 39 Q29 33 37 39 Q44 33 50 39 Q56 33 63 39 Q71 33 80 39" fill="none" stroke="#9c2218" stroke-width="2.4" opacity="0.6"/>
+    <path d="M33 42 Q28 66 39 89" stroke="#9c2218" stroke-width="2.2" fill="none" opacity="0.45"/>
+    <path d="M67 42 Q72 66 61 89" stroke="#9c2218" stroke-width="2.2" fill="none" opacity="0.45"/>
+    <ellipse cx="32" cy="52" rx="8" ry="11" fill="#fff" opacity="0.22" transform="rotate(-18 32 52)"/>
+    <g class="blink"><circle cx="39" cy="58" r="4.6" fill="#2a201a"/><circle cx="62" cy="58" r="4.6" fill="#2a201a"/>
+    <circle cx="40.6" cy="56.4" r="1.5" fill="#fff"/><circle cx="63.6" cy="56.4" r="1.5" fill="#fff"/></g>
+    <path d="M37 70 q13 7 26 -3" fill="none" stroke="#2a201a" stroke-width="3.4" stroke-linecap="round"/>`,
+
+  // elongated oval plum, smooth, orange-red
+  roma:()=>`
+    ${leaf(50,24)}
+    <path d="M50 24 C66 24 75 42 75 62 C75 81 64 92 50 92 C36 92 25 81 25 62 C25 42 34 24 50 24 Z" fill="#e8632a" stroke="#9c3613" stroke-width="3"/>
+    <ellipse cx="40" cy="54" rx="5" ry="16" fill="#fff" opacity="0.24"/>
+    <g class="blink"><circle cx="42" cy="58" r="3.5" fill="#2a201a"/><circle cx="60" cy="58" r="3.5" fill="#2a201a"/></g>
+    <path d="M36 53 l7 1.6" stroke="#2a201a" stroke-width="2.6" stroke-linecap="round"/>
+    <path d="M66 53 l-7 1.6" stroke="#2a201a" stroke-width="2.6" stroke-linecap="round"/>
+    <path d="M40 71 q11 5 20 -3" fill="none" stroke="#2a201a" stroke-width="3" stroke-linecap="round"/>
+    <path d="M71 44 l1.5 4 4 1.5 -4 1.5 -1.5 4 -1.5 -4 -4 -1.5 4 -1.5 Z" fill="#e7a338" stroke="#2a201a" stroke-width="0.8"/>`,
+
+  // friendly intro tomato
+  hero:()=>`
+    ${leaf(50,22)}
+    <path d="M50 24 C73 24 88 39 88 60 C88 82 70 92 50 92 C30 92 12 82 12 60 C12 39 27 24 50 24 Z" fill="#e0392b" stroke="#9e1f17" stroke-width="3"/>
+    <ellipse cx="33" cy="48" rx="9" ry="13" fill="#fff" opacity="0.3" transform="rotate(-20 33 48)"/>
+    <g class="blink"><circle cx="40" cy="58" r="4.4" fill="#2a201a"/><circle cx="62" cy="58" r="4.4" fill="#2a201a"/>
+    <circle cx="41.6" cy="56.4" r="1.5" fill="#fff"/><circle cx="63.6" cy="56.4" r="1.5" fill="#fff"/></g>
+    <ellipse cx="32" cy="68" rx="5" ry="3" fill="#ff8a78" opacity="0.5"/><ellipse cx="68" cy="68" rx="5" ry="3" fill="#ff8a78" opacity="0.5"/>
+    <path d="M38 70 q12 9 24 0" fill="none" stroke="#2a201a" stroke-width="3.2" stroke-linecap="round"/>`
+};
+
+/* ---------- TYPES (simple names, short copy) ---------- */
+const TYPES = {
+  cherry:{ no:"01", name:"The Cherry Tomato", persona:"The Chaos One", accent:"#e0392b",
+    desc:"47 tabs open, zero finished. You start everything, finish nothing, and somehow still look like you are having fun.",
+    traits:["47 tabs open","starts everything","finishes nothing","fun chaos"], ripe:88,
+    soul:"roma", why:"they turn your chaos into a plan", nem:"a quiet to-do list" },
+  heirloom:{ no:"02", name:"The Heirloom Tomato", persona:"The Soft One", accent:"#9c3550",
+    desc:"You built a whole relationship out of one 'haha' text. Soft, dramatic, always the main character of your own film.",
+    traits:["overthinks the 'haha'","Notes app poet","delulu","main character"], ripe:74,
+    soul:"sundried", why:"you feel it, they snack through it", nem:"the 'seen' tick" },
+  sundried:{ no:"03", name:"The Sun-Dried Tomato", persona:"The Burnt-Out One", accent:"#7e2e1a",
+    desc:"Running on cold coffee and a show you have seen nine times. Low battery, high taste, one nap away from fine.",
+    traits:["low battery","fridge at 1am","cold coffee fuel","one nap from fine"], ripe:61,
+    soul:"heirloom", why:"they bring drama, you bring snacks", nem:"a full inbox" },
+  canned:{ no:"04", name:"The Canned Tomato", persona:"The Messy One", accent:"#d8392c",
+    desc:"Calm on the outside, chaos inside. You hold it together for everyone and are one small thing from a meltdown.",
+    traits:["'I am fine' (lying)","does it for everyone","meltdown loading","holds it together"], ripe:69,
+    soul:"green", why:"you do it all, they do nothing, balance", nem:"someone asking 'you okay?'" },
+  green:{ no:"05", name:"The Green Tomato", persona:"The 'Later' One", accent:"#6f9a3c",
+    desc:"You will do it tomorrow. You have been saying that since 2019. The potential is there, the follow-through is loading.",
+    traits:["'I'll do it tomorrow'","deadline = suggestion","not ripe yet","forever loading"], ripe:34,
+    soul:"canned", why:"they bring the plan, you bring the vibes", nem:"the word 'urgent'" },
+  beefsteak:{ no:"06", name:"The Beefsteak Tomato", persona:"The Loud One", accent:"#c92f24",
+    desc:"Big opinions, nine-hour screen time, main event of every group chat. You would win a 2am fight with a stranger.",
+    traits:["a take on everything","9-hour screen time","group chat main event","wins random fights"], ripe:81,
+    soul:"cherry", why:"two tabs from a meltdown, together", nem:"slow wifi" },
+  roma:{ no:"07", name:"The Roma Tomato", persona:"The Try-Hard One", accent:"#e8632a",
+    desc:"You do not relax, you optimise. A Matiks streak, a color-coded plan, somehow ranked at things you tried for fun.",
+    traits:["optimises everything","Matiks streak","rests by being busy","secretly ranked"], ripe:77,
+    soul:"cherry", why:"you optimise, they chaos, it works", nem:"a lazy afternoon" }
+};
+
+/* ---------- QUESTIONS ---------- */
+const QUESTIONS = [
+  { q:"It is 1am and you have an early start. You are:",
+    a:[ {t:"Doomscrolling reels you will forget in five minutes", k:"beefsteak"},
+        {t:"Replaying one conversation from three years ago", k:"heirloom"},
+        {t:"Eating Maggi straight out of the pot", k:"sundried"},
+        {t:"Reorganising your camera roll for no reason", k:"cherry"} ]},
+  { q:"Foggy brain on a slow Sunday. You reset by:",
+    a:[ {t:"A few rounds of Matiks to feel sharp again", k:"roma"},
+        {t:"Scrolling Instagram till your thumb gives up", k:"beefsteak"},
+        {t:"Lying down, staring at the ceiling", k:"green"},
+        {t:"A nap and a show you have seen nine times", k:"sundried"} ]},
+  { q:"Something blows up at work. First move:",
+    a:[ {t:"Open a new tab, panic quietly, do nothing", k:"green"},
+        {t:"Fix it for everyone, thank yourself never", k:"canned"},
+        {t:"Make a calm four-step plan in thirty seconds", k:"roma"},
+        {t:"Handle it right after a snack, promise", k:"sundried"} ]},
+  { q:"Your screen time report says:",
+    a:[ {t:"Nine hours. Mostly lurking and arguing.", k:"beefsteak"},
+        {t:"I closed it before it could load", k:"green"},
+        {t:"Hidden. Like my feelings.", k:"canned"},
+        {t:"Five hours on one random thing", k:"cherry"} ]},
+  { q:"Someone you like leaves you on read. You:",
+    a:[ {t:"Write four paragraphs in Notes, send none", k:"heirloom"},
+        {t:"Decide you never liked them (a lie)", k:"green"},
+        {t:"Open three other chats to distract yourself", k:"cherry"},
+        {t:"Post a cryptic story so they know", k:"beefsteak"} ]},
+  { q:"Pick your most accurate weekend:",
+    a:[ {t:"Started a hobby you will drop by Tuesday", k:"cherry"},
+        {t:"Said yes to everything, now in crisis", k:"canned"},
+        {t:"Romanticising a coffee like a film scene", k:"heirloom"},
+        {t:"Optimised your whole week like a project", k:"roma"} ]},
+  { q:"How do you handle a hard day?",
+    a:[ {t:"Romanticise it like an indie film", k:"heirloom"},
+        {t:"Comfort food and a safe rewatch", k:"sundried"},
+        {t:"Say you are great, fall apart in private", k:"canned"},
+        {t:"Make a plan so it never happens again", k:"roma"} ]}
+];
+
+/* ---------- LOGIC ---------- */
+let qi=0, scores={}, currentResult=null;
+const $=id=>document.getElementById(id);
+$('heroTomato').innerHTML = ART.hero();
+
+function buildProgress(){ const p=$('progress'); p.innerHTML='';
+  QUESTIONS.forEach((_,i)=>{ const d=document.createElement('div');
+    d.className='pip'+(i<qi?' done':i===qi?' cur':''); p.appendChild(d); }); }
+function start(){ qi=0; scores={cherry:0,heirloom:0,sundried:0,canned:0,green:0,beefsteak:0,roma:0}; show('quiz'); renderQ(); }
+function renderQ(){
+  buildProgress(); const Q=QUESTIONS[qi];
+  $('qno').textContent=`Question ${String(qi+1).padStart(2,'0')} / ${String(QUESTIONS.length).padStart(2,'0')}`;
+  $('qtext').textContent=Q.q;
+  const wrap=$('opts'); wrap.classList.add('stagger'); wrap.innerHTML='';
+  const L=['A','B','C','D'];
+  Q.a.forEach((opt,i)=>{ const b=document.createElement('button');
+    b.className='opt'; b.style.animationDelay=(0.06*i)+'s'; b.style.transform='translateY(8px)';
+    b.innerHTML=`<span class="ltr">${L[i]}</span><span>${opt.t}</span>`;
+    b.onclick=()=>pick(opt.k); wrap.appendChild(b); });
+}
+function pick(k){ scores[k]=(scores[k]||0)+1; qi++;
+  if(qi<QUESTIONS.length){ renderQ(); window.scrollTo({top:0,behavior:'smooth'}); } else finish(); }
+function finish(){ let best=null,bestN=-1;
+  Object.keys(TYPES).forEach(k=>{ if((scores[k]||0)>bestN){bestN=scores[k]||0;best=k;} }); renderResult(best); }
+function renderResult(k){
+  currentResult=k; const T=TYPES[k];
+  $('result').style.setProperty('--accent', T.accent);
+  $('rVariety').textContent=`Variety № ${T.no} of 07`;
+  $('resultTomato').innerHTML=ART[k]();
+  $('resultTomato').classList.remove('pop'); void $('resultTomato').offsetWidth; $('resultTomato').classList.add('pop');
+  $('rName').textContent=T.name;
+  $('rTag').textContent=`a.k.a. ${T.persona}`;
+  $('rDesc').textContent=T.desc;
+  const tw=$('rTraits'); tw.innerHTML='';
+  T.traits.forEach(tr=>{const s=document.createElement('span');s.className='trait';s.textContent=tr;tw.appendChild(s);});
+  const S=TYPES[T.soul];
+  $('soulTomato').innerHTML=ART[T.soul]();
+  $('soulName').textContent=S.name;
+  $('soulWhy').textContent=T.why;
+  $('rNem').innerHTML=`Natural enemy: <b>${T.nem}</b>`;
+  show('result'); $('ripeFill').style.width='0'; setTimeout(()=>{ $('ripeFill').style.width=T.ripe+'%'; },300);
+  $('copied').textContent=''; burst();
+}
+function burst(){
+  const stage=$('result').querySelector('.stage');
+  for(let i=0;i<14;i++){ const s=document.createElement('div'); s.className='seed'; stage.appendChild(s);
+    const ang=Math.random()*Math.PI*2, dist=60+Math.random()*70; s.style.left='50%'; s.style.top='50%';
+    s.animate([{transform:'translate(-50%,-50%) scale(1)',opacity:1},
+      {transform:`translate(${Math.cos(ang)*dist-50}%,${Math.sin(ang)*dist-50}%) scale(.4) rotate(${Math.random()*360}deg)`,opacity:0}],
+      {duration:700+Math.random()*300,easing:'cubic-bezier(.2,.8,.3,1)'});
+    setTimeout(()=>s.remove(),1000);
+  }
+}
+
+/* ---------- SHAREABLE CARD IMAGE ---------- */
+function pageURL(){ return location.href.split('#')[0].split('?')[0]; }
+function tweetText(){ const T=TYPES[currentResult], S=TYPES[T.soul];
+  return `ok this is too accurate 😭 I'm ${T.name}, ${T.persona}.\nmy tomato soulmate is ${S.name} 🍅\n\nwhat tomato are you?`; }
+function drawSVG(ctx, inner, x, y, size){ return new Promise((res,rej)=>{
+  const svg=`<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' width='${size}' height='${size}'>${inner}</svg>`;
+  const img=new Image(); img.onload=()=>{ctx.drawImage(img,x,y,size,size);res();}; img.onerror=rej;
+  img.src='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(svg); }); }
+function wrapText(ctx,text,x,y,maxW,lh){ const words=text.split(' '); let line='',yy=y;
+  for(const w of words){ const t=line?line+' '+w:w;
+    if(ctx.measureText(t).width>maxW && line){ ctx.fillText(line,x,yy); line=w; yy+=lh; } else line=t; }
+  if(line) ctx.fillText(line,x,yy); return yy; }
+async function makeCard(){
+  const T=TYPES[currentResult], S=TYPES[T.soul], W=1080, H=1350;
+  const cv=document.createElement('canvas'); cv.width=W; cv.height=H; const ctx=cv.getContext('2d');
+  ctx.fillStyle='#fbf1df'; ctx.fillRect(0,0,W,H);
+  ctx.strokeStyle='#2a201a'; ctx.lineWidth=6; ctx.strokeRect(40,40,W-80,H-80);
+  ctx.lineWidth=2; ctx.strokeRect(56,56,W-112,H-112);
+  try{ await Promise.all([
+    document.fonts.load('900 92px Fraunces'), document.fonts.load('italic 700 46px Fraunces'),
+    document.fonts.load('700 30px "Space Mono"'), document.fonts.load('500 38px "Schibsted Grotesk"'),
+    document.fonts.ready ]); }catch(e){}
+  ctx.textAlign='center';
+  ctx.fillStyle='#2c4d2a'; ctx.font='700 30px "Space Mono", monospace';
+  ctx.fillText('WHAT KIND OF TOMATO ARE YOU?', W/2, 132);
+  const size=470; await drawSVG(ctx, ART[currentResult](), (W-size)/2, 168, size);
+  ctx.fillStyle=T.accent; ctx.font='900 90px Fraunces, serif'; ctx.fillText(T.name, W/2, 728);
+  ctx.fillStyle='#2a201a'; ctx.font='italic 700 46px Fraunces, serif'; ctx.fillText('a.k.a. '+T.persona, W/2, 788);
+  ctx.fillStyle='#4d3e34'; ctx.font='500 38px "Schibsted Grotesk", sans-serif';
+  wrapText(ctx, T.desc, W/2, 858, W-240, 50);
+  ctx.fillStyle=T.accent; ctx.font='700 40px "Space Mono", monospace'; ctx.fillText(T.ripe+'% RIPE', W/2, 1062);
+  ctx.fillStyle='#2c4d2a'; ctx.font='700 30px "Space Mono", monospace';
+  ctx.fillText('SOULMATE: '+S.name.toUpperCase(), W/2, 1132);
+  ctx.fillStyle='#9a8a7c'; ctx.font='700 26px "Space Mono", monospace';
+  ctx.fillText(pageURL().replace(/^https?:\/\//,''), W/2, 1268);
+  return cv;
+}
+function cardToBlob(cv){ return new Promise(res=>cv.toBlob(res,'image/png')); }
+function download(blob,name){ const a=document.createElement('a'); a.href=URL.createObjectURL(blob);
+  a.download=name; document.body.appendChild(a); a.click(); a.remove(); setTimeout(()=>URL.revokeObjectURL(a.href),3000); }
+
+$('shareBtn').onclick=async()=>{
+  const note=$('copied'); note.textContent='making your card...';
+  let cv; try{ cv=await makeCard(); }catch(e){ note.textContent='hmm, try Save card instead'; return; }
+  const blob=await cardToBlob(cv); const url=pageURL();
+  const file=new File([blob],'my-tomato.png',{type:'image/png'});
+  if(navigator.canShare && navigator.canShare({files:[file]})){
+    try{ await navigator.share({files:[file], text:tweetText()+'\n'+url}); note.textContent=''; }
+    catch(e){ note.textContent=''; }
+  } else {
+    download(blob,'my-tomato.png');
+    window.open(`https://x.com/intent/tweet?text=${encodeURIComponent(tweetText())}&url=${encodeURIComponent(url)}`,'_blank','noopener');
+    note.textContent='card saved. attach it to the tweet 🍅';
+  }
+};
+$('dlBtn').onclick=async()=>{
+  const note=$('copied'); note.textContent='saving...';
+  let cv; try{ cv=await makeCard(); }catch(e){ note.textContent='could not save, try again'; return; }
+  const blob=await cardToBlob(cv); download(blob,'my-tomato.png'); note.textContent='saved to your downloads 🍅';
+};
+function restart(){ start(); }
+function show(id){ document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active')); $(id).classList.add('active'); }
+</script>
+</body>
+</html>
